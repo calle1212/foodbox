@@ -13,7 +13,7 @@ namespace Backend.models
         required public string Location { get; set; }
         public DateTime Date;
         public bool IsTaken { get; set; } = false;
-        required public User Poster { get; init; }
+        required public User Creator { get; init; }
         public User? Fulfiller { get; set; }
     }
 }
