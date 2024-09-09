@@ -10,7 +10,7 @@ namespace Backend.models
         public int Id;
         required public string Name { get; set; }
         public List<Review> Reviews { get; } = [];
+        public Post? ActivePost {get; set;}
         public List<Post> PostHistory { get; } = [];
-        public List<Post> FulfilledHistory { get; } = [];
     }
 }

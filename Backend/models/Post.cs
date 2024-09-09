@@ -12,12 +12,8 @@ namespace Backend.models
         public int Payment { get; set; }
         required public string Location { get; set; }
         public DateTime Date;
-
         public bool IsTaken { get; set; } = false;
-        public bool IsFulfilled { get; set; } = false;
         required public User Poster { get; init; }
         public User? Fulfiller { get; set; }
-
-
     }
 }
