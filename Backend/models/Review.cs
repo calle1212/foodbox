@@ -7,8 +7,8 @@ namespace Backend.models
 {
     public class Review
     {
-        public User user {get; init;}
-        public string Body {get; set;}
+        required public User User {get; init;}
+        required public string Body {get; set;}
         public int Rating {get; set;}
     }
 }
