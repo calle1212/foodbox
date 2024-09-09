@@ -7,10 +7,13 @@ namespace Backend.models
 {
     public class User
     {
-        
+
         public int Id;
-        public string Name  {get; set;}
-        public List<Review> Reviews {get; } = new();
-        
+        public string Name { get; set; }
+        public List<Review> Reviews { get; } = [];
+        public List<Post> PostHistory { get; } = [];
+        public List<Post> FulfilledHistory { get; } = [];
+
+
     }
 }
