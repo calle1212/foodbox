@@ -12,6 +12,7 @@ namespace Backend.models
         public int Payment {get; set;}
         public string Location {get; set;} 
         public DateTime Date;
+        public User User {get; init;}
 
     }
 }
