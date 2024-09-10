@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace Backend.models;
 
 public class Post
 {
+    [Key]
+    public int Id;
     required public string Title { get; set; }
     required public string Description { get; set; }
     public int Payment { get; set; }
@@ -18,7 +17,7 @@ public class Post
 
     public bool AddFulfiller(User fulfiller)
     {
-        if(Fulfiller is null ) 
+        if (Fulfiller is null)
         {
             Fulfiller = fulfiller;
             return true;

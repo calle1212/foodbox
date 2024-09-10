@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace Backend.models;
 
 public class User
 {
+    [Key]
     public int Id;
     required public string ClerkId { get; init; }
     required public string Name { get; set; }
