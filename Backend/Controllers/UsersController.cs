@@ -1,3 +1,4 @@
+using Backend.data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers;
@@ -6,5 +7,13 @@ namespace Backend.Controllers;
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
+
+    private readonly FoodBoxContext _context;
+
+    public UsersController(FoodBoxContext context)
+    {
+        _context = context;
+    }
+
 
 }
