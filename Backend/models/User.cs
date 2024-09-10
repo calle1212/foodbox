@@ -6,7 +6,7 @@ namespace Backend.models;
 public class User
 {
     [Key]
-    public int Id;
+    public int Id {get; set;}
     required public string ClerkId { get; init; }
     required public string Name { get; set; }
     public List<Review> Reviews { get; } = [];

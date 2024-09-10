@@ -6,7 +6,7 @@ namespace Backend.models;
 public class Post
 {
     [Key]
-    public int Id;
+    public int Id {get; set;}
     required public string Title { get; set; }
     required public string Description { get; set; }
     public int Payment { get; set; }
