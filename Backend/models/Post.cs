@@ -12,7 +12,7 @@ public class Post
     required public string Description { get; set; }
     public int Payment { get; set; }
     required public string Location { get; set; }
-    public DateTime Date;
+    public DateTime Date {get; set;}
     public int CreatorId { get; set; }
     required public User Creator { get; init; }
     public int FulfillerId { get; set; }
