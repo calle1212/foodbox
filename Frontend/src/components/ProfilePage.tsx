@@ -1,4 +1,4 @@
-import { UserButton, useUser } from "@clerk/clerk-react";
+import { SignIn, SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import { useMatch, Link } from '@tanstack/react-router';
 import { Post, MyUser } from "../types";
@@ -8,9 +8,9 @@ import DealHistoryComponent from "./DealHistoryComponent";
 
 export default function ProfilePage() {
     const { search } = useMatch("/profile");
-    const qid = search.id;
+    let qid = search.id;
     const { user } = useUser();
-
+    if (!qid) qid = user?.id;
 
     const { isPending, error, data, isFetching } = useQuery<MyUser>({
         queryKey: ["ProfileData"],
@@ -21,26 +21,40 @@ export default function ProfilePage() {
             return await response.json()
         },
     })
+    if (user) {
+        if (isPending) return 'Loading...';
+        if (error) return 'An error has occurred: ' + error.message
+        if (isFetching) return "is fetching...";
+        return (
+            <div className="flex flex-col items-center gap-4">
 
-    if (isPending) return 'Loading...';
-    if (error) return 'An error has occurred: ' + error.message
-    if (isFetching) return "is fetching...";
-    return (
-        <div className="flex flex-col items-center gap-4">
-            <UserButton />
-            <h1 className="text-2xl">{data.name} </h1>
-            
-            <h2>Active Deal</h2>
-            {data.activePost && <Link className="btn" to="/deal" search={{ id: {data}.data.activePost.id,}} >Check out {data.name}' active deal</Link> }
-        
-            <h2>Reviews</h2>
-            {data.reviews.map(review => <ReviewComponent {...review} key={review.id}/>)}
+                <h1 className="text-2xl font-semibold">{data.name} </h1>
+                <figure className=" ">
+                    <img
+                        className="w-52 h-52"
+                        src={data.imageUrl || "http://www.clipartbest.com/cliparts/M9i/4d7/M9i4d79cE.png"}
+                        alt="Food image" />
+                </figure>
+                <h2>Active Deal</h2>
+                {data.activePost && <Link className="btn" to="/deal" search={{ id: { data }.data.activePost.id, }} >Check out {data.name}' active deal</Link>}
 
-            <h2>Deal history</h2>
-            {data.postHistory.map(post => <DealHistoryComponent {...post} key={post.id}/>)}
+                <h2>Reviews</h2>
+                {data.reviews.map(review => <ReviewComponent {...review} key={review.id} />)}
+
+                <h2>Deal history</h2>
+                {data.postHistory.map(post => <DealHistoryComponent {...post} key={post.id} />)}
 
 
-            {user?.id == qid && <button className="btn">Update Information</button>}
-        </div>
-    )
+                {user?.id == qid && <button className="btn">Update Information</button>}
+            </div>
+        )
+    }
+    else {
+        return (
+            <div className="flex flex-col items-center p-16 gap-5">
+                <h1 className="text-3xl">Log in or Register an account</h1>
+                <SignIn />
+            </div>
+        )
+    }
 }
