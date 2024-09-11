@@ -35,5 +35,11 @@ public class PostsController : ControllerBase
         return CreatedAtAction(nameof(CreatePost), new {id = post.Id}, post);
     }
 
+    [HttpGet]
+    public List<PostResponse> GetPosts()
+    {
+        return _context.Posts.Select(post => (PostResponse) post).ToList();
+    }
+
 
 }
