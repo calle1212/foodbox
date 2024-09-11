@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Backend.data;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +8,13 @@ builder.Services.AddDbContext<FoodBoxContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("FoodboxContext") ?? throw new InvalidOperationException("Connection string 'FoodboxContext' not found.")));
 
 
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.WriteIndented = true;
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

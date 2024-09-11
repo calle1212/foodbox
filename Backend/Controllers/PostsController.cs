@@ -27,8 +27,7 @@ public class PostsController : ControllerBase
         if(user is null) return NotFound("The user has not been created");
         if(user.ActivePost is not null) return BadRequest("Only one active post per user is permitted");
 
-        Post post = (Post) request;
-        post.Creator = user;
+        Post post = (Post) (request, user);
         user.SetActivePost(post);
         _context.Posts.Add(post);
 
