@@ -30,17 +30,26 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<List<PostResponse>>> GetPostHistory(string ClerkId)
     {
         User? user = await _context.Users.FirstOrDefaultAsync(user => user.ClerkId == ClerkId);
-        if(user is not null) return user.PostHistory.Select(post => (PostResponse) post).ToList();
+        if (user is not null) return user.PostHistory.Select(post => (PostResponse)post).ToList();
         return NotFound("User was not found");
     }
 
-    [HttpGet]
+    [HttpGet("ActivePost")]
     public async Task<ActionResult<PostResponse>> GetActivePost(string ClerkId)
     {
         User? user = await _context.Users.Include(user => user.ActivePost)
                                          .FirstOrDefaultAsync(user => user.ClerkId == ClerkId);
-        if(user == null) return NotFound("The User was not found");
-        if(user.ActivePost == null) return NotFound("User does not have an active post");
-        return (PostResponse) user.ActivePost;
+        if (user == null) return NotFound("The User was not found");
+        if (user.ActivePost == null) return NotFound("User does not have an active post");
+        return (PostResponse)user.ActivePost;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<User>> GetUser(string id)
+    {
+        User? user = await _context.Users.FirstOrDefaultAsync(user => user.ClerkId == id);
+        if (user == null) return NotFound("The User was not found");
+        return user;
+
     }
 }

@@ -41,7 +41,7 @@ public class PostsController : ControllerBase
     [HttpGet]
     public List<PostResponse> GetPosts()
     {
-        return _context.Posts.Select(post => (PostResponse) post).ToList();
+        return _context.Posts.Include(post => post.Creator).Select(post => (PostResponse) post).ToList();
     }
 
 
