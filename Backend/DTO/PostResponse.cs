@@ -1,13 +1,14 @@
 using Backend.models;
 
 namespace Backend.DTO;
-public record PostResponse(string Title, string Description, int Payment, string Location, DateTime Date, string CreatorClerkId, string? FulfillerClerkId, string? imageUrl)
+public record PostResponse(int Id, string Title, string Description, int Payment, string Location, DateTime Date, string CreatorClerkId, string? FulfillerClerkId, string? imageUrl)
 {
     public static implicit operator PostResponse(Post post)
     {
         if (post.Fulfiller is not null)
         {
             return new PostResponse(
+                post.Id,
                 post.Title,
                 post.Description,
                 post.Payment,
@@ -19,6 +20,7 @@ public record PostResponse(string Title, string Description, int Payment, string
                 );
         }
         return new PostResponse(
+                post.Id,
                 post.Title,
                 post.Description,
                 post.Payment,

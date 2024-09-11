@@ -1,5 +1,9 @@
+import { Post } from '../types';
+
 export default function AdvertPage(){
+
+    // Access the state passed from HomePage
     return (
-        <div>hej från advertpage</div>
+        <p>hej</p>
     )
 }

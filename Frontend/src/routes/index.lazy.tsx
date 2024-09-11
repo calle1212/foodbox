@@ -1,14 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
+import AdvertGallery from '../components/AdvertGallery'
 
 export const Route = createLazyFileRoute('/')({
-    component: Index,
+    component: AdvertGallery,
 })
 
-function Index() {
-
-    return (
-        <div className="p-2">
-            <h3>Welcome Home!</h3>
-        </div>
-    )
-}
