@@ -25,9 +25,11 @@ public class PostsController : ControllerBase
     {
         User? user =_context.Users.FirstOrDefault(user => user.ClerkId == request.CreatorClerkId);
         if(user is null) return BadRequest("The has not been created");
+        if(user.ActivePost is not null) return BadRequest("Only one active post per user is permitted");
 
         Post post = (Post) request;
         post.Creator = user;
+        user.SetActivePost(post);
         _context.Posts.Add(post);
 
         await _context.SaveChangesAsync();
