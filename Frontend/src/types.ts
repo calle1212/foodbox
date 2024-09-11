@@ -9,3 +9,18 @@ export interface Post {
     fulfillerClerkId?: string;
     imageUrl?: string;         
   }
+
+  export interface Review {
+    id: number;
+    rating: number;
+  }
+
+  export interface MyUser {
+    id:number;
+    clerkId:string;
+    name: string;
+    imageUrl: string;
+    reviews: Review[];
+    activePost: Post;
+    postHistory: Post[];
+  }

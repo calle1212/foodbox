@@ -1,4 +1,4 @@
-export default function JobsFinishedHistory(){
+export default function DealHistoryComponent(){
     return (
         <div>hej från JobsFinishedHistory</div>
     )

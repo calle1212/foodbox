@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { Post } from '../types';
-import { useMatch } from '@tanstack/react-router';
+import { useMatch , Link} from '@tanstack/react-router';
 
 export default function AdvertPage(){
     const { search } = useMatch("/deal");
@@ -29,6 +29,9 @@ export default function AdvertPage(){
             <li>Payment: {Post?.payment} kr</li>
             </ul>
             <button className='btn btn-primary'>Take Job</button>
+            <div className='p-10'>
+            <Link to="/profile" search={{id: Post?.creatorClerkId}} className='btn'>Check out creator</Link>
+            </div>
         </div>
     )
 }
