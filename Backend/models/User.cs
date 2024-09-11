@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Backend.DTO;
 
 
 namespace Backend.models;
@@ -33,6 +34,14 @@ public class User
         }
         return false;
     }
+
+        public static implicit operator User(UserRequest userReq)
+    {
+        return new User{ Name = userReq.Name,
+                         ClerkId = userReq.ClerkId
+                        };
+    }
+
 }
 
 

@@ -6,6 +6,7 @@ using Backend.data;
 using Backend.DTO;
 using Backend.models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Controllers;
 
@@ -23,7 +24,8 @@ public class PostsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreatePost(PostRequest request)
     {
-        User? user =_context.Users.FirstOrDefault(user => user.ClerkId == request.CreatorClerkId);
+        User? user =_context.Users.Include(user => user.ActivePost)
+                                  .FirstOrDefault(user => user.ClerkId == request.CreatorClerkId);
         if(user is null) return NotFound("The user has not been created");
         if(user.ActivePost is not null) return BadRequest("Only one active post per user is permitted");
 
