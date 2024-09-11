@@ -19,8 +19,12 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> PostUser([Bind("ClerkId,Name")] User user)
+    public async Task<ActionResult> PostUser(UserRequest userReq)
     {
+        
+        if(_context.Users.FirstOrDefault(user => user.ClerkId == userReq.ClerkId) != null) return BadRequest("User already exists");
+        User user = (User) userReq;
+
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(PostUser), new { id = user.ClerkId }, user);
