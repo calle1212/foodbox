@@ -54,10 +54,9 @@ export default function AdvertGallery() {
     if (isPending) return 'Loading...';
     if (error) return 'An error has occurred: ' + error.message
     if (isFetching) return "is fetching...";
-    //console.log(data);
     return (
         <div className='flex gap-4'>
-            {data.map(post => <AdvertCard {...post} />)}
+            {data.map(post => <AdvertCard {...post} key={post.id}/>)}
         </div>
     )
 }

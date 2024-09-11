@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router'
 
 
 export default function AdvertCard(Post: Post) {
-    console.log(Post)
+    //console.log(Post)
 
     return (
         <>
@@ -24,7 +24,7 @@ export default function AdvertCard(Post: Post) {
                             search={{
                                 id: {Post}.Post.id,
                             }}
-                            className="btn btn-primary">Inpsect job</Link>
+                            className="btn btn-primary">Details</Link>
                     </div>
                 </div>
             </div>

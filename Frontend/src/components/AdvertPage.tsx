@@ -22,11 +22,12 @@ export default function AdvertPage(){
                         src={Post?.imageUrl || "https://images.pexels.com/photos/1860208/pexels-photo-1860208.jpeg?cs=srgb&dl=cooked-food-1860208.jpg&fm=jpg"}
                         alt="Food image" />
                 </figure>
-            <p>{Post?.description}</p>
-            <p>{Post?.date}</p>
-            <p>{Post?.location}</p>
-            <p>{Post?.payment} kr</p>
-
+                <ul>
+            <li>Description: {Post?.description}</li>
+            <li>Come over at: {Post?.date}</li>
+            <li>Address: {Post?.location}</li>
+            <li>Payment: {Post?.payment} kr</li>
+            </ul>
             <button className='btn btn-primary'>Take Job</button>
         </div>
     )
