@@ -24,7 +24,7 @@ public class PostsController : ControllerBase
     public async Task<ActionResult> CreatePost(PostRequest request)
     {
         User? user =_context.Users.FirstOrDefault(user => user.ClerkId == request.CreatorClerkId);
-        if(user is null) return BadRequest("The has not been created");
+        if(user is null) return NotFound("The user has not been created");
         if(user.ActivePost is not null) return BadRequest("Only one active post per user is permitted");
 
         Post post = (Post) request;

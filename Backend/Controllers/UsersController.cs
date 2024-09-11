@@ -1,6 +1,8 @@
 using Backend.data;
+using Backend.DTO;
 using Backend.models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Controllers;
 
@@ -22,5 +24,13 @@ public class UsersController : ControllerBase
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(PostUser), new { id = user.ClerkId }, user);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<List<PostResponse>>> GetPostHistory(string ClerkId)
+    {
+        User? user = await _context.Users.FirstOrDefaultAsync(user => user.ClerkId == ClerkId);
+        if(user is not null) return user.PostHistory.Select(post => (PostResponse) post).ToList();
+        return NotFound("User was not found");
     }
 }
