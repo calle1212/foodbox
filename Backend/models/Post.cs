@@ -22,14 +22,13 @@ public class Post
     public string Location { get; set; }
 
     public DateTime Date { get; set; }
-
+    public string? ImageUrl {get; set;}
     public int? CreatorId { get; set; }
     public User? Creator { get; set; }
     public int? FulfillerId { get; set; }
     public User? Fulfiller { get; private set; }
 
     // Parameterless constructor for EF Core
-    public Post() { }
 
     // Constructor for manual use (outside of EF Core)
     public Post(string title, string description, int payment, string location, DateTime date)

@@ -10,6 +10,7 @@ public class User
     public int Id {get; set;}
     required public string ClerkId { get; init; }
     required public string Name { get; set; }
+    public string? ImageUrl {get; set;}
     public List<Review> Reviews { get; } = [];
     public Post? ActivePost { get; private set; }
     public List<Post> PostHistory { get; } = [];
