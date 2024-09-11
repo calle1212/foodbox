@@ -1,7 +1,7 @@
 using Backend.models;
 
 namespace Backend.DTO;
-public record PostResponse(string Title, string Description, int Payment, string Location, DateTime Date, string CreatorClerkId, string? FulfillerClerkId)
+public record PostResponse(string Title, string Description, int Payment, string Location, DateTime Date, string CreatorClerkId, string? FulfillerClerkId, string? imageUrl)
 {
     public static implicit operator PostResponse(Post post)
     {
@@ -14,7 +14,8 @@ public record PostResponse(string Title, string Description, int Payment, string
                 post.Location,
                 post.Date,
                 post.Creator!.ClerkId,
-                post.Fulfiller.ClerkId
+                post.Fulfiller.ClerkId,
+                post.ImageUrl
                 );
         }
         return new PostResponse(
@@ -24,7 +25,8 @@ public record PostResponse(string Title, string Description, int Payment, string
                 post.Location,
                 post.Date,
                 post.Creator!.ClerkId,
-                ""
+                "",
+                post.ImageUrl
         );
 
     }
