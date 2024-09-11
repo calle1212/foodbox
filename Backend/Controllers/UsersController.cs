@@ -51,7 +51,10 @@ public class UsersController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<User>> GetUser(string id)
     {
-        User? user = await _context.Users.FirstOrDefaultAsync(user => user.ClerkId == id);
+        User? user = await _context.Users.Include(user => user.ActivePost)
+                                          .Include(user => user.Reviews)
+                                          .Include(user => user.PostHistory)
+                                         .FirstOrDefaultAsync(user => user.ClerkId == id);
         if (user == null) return NotFound("The User was not found");
         return user;
 

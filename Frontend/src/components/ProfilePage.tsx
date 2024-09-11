@@ -26,12 +26,12 @@ export default function ProfilePage() {
     if (error) return 'An error has occurred: ' + error.message
     if (isFetching) return "is fetching...";
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center gap-4">
             <UserButton />
             <h1 className="text-2xl">{data.name} </h1>
             
             <h2>Active Deal</h2>
-            {data.activePost && <Link to="/deal" search={{ id: {data}.data.activePost.id,}} ></Link> }
+            {data.activePost && <Link className="btn" to="/deal" search={{ id: {data}.data.activePost.id,}} >Check out {data.name}' active deal</Link> }
         
             <h2>Reviews</h2>
             {data.reviews.map(review => <ReviewComponent {...review} key={review.id}/>)}
