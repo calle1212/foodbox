@@ -1,6 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Post } from '../types';
 import { useMatch , Link} from '@tanstack/react-router';
+import { useUser } from '@clerk/clerk-react';
 
 export default function AdvertPage(){
     const { search } = useMatch("/deal");
@@ -15,11 +16,28 @@ export default function AdvertPage(){
             return await response.json()
         },
     })
+    const user= useUser();
+
+    const queryClient = useQueryClient();
+
+    const deleteDeveloperQuery  = useMutation({
+        mutationFn: () => {
+            return fetch(`http://localhost:5063/api/Posts/AcceptJob?fulfillerClerkId=${user.user?.id}&postId=${data?.id}`, {
+                method: "DELETE",
+            })
+        },
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["UserPost", qid] }) 
+    });
+
+    console.log(user.user?.id)
 
     if (isPending) return 'Loading...';
     if (error) return 'An error has occurred: ' + error.message
     if (isFetching) return "is fetching...";
 
+    function acceptJob(){
+        deleteDeveloperQuery.mutate();
+    }
 
     const Post = data;
     return (
@@ -39,7 +57,9 @@ export default function AdvertPage(){
             <li>Payment: {Post?.payment} kr</li>
             </ul>
             <div className='p-4'>
-            <button className='btn btn-primary'>Take Job</button>
+
+            { Post.fulfillerClerkId == "" && <button className='btn btn-disabled' >This has job already been accepted</button>}
+            { Post.fulfillerClerkId != "" && <button className='btn btn-primary' onClick={() => acceptJob}>Take Job</button>}
             </div>
             <div className='p-10'>
             <Link to="/profile" search={{id: Post?.creatorClerkId}} className='btn'>Check out {Post.creatorName}'s profile</Link>

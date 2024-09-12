@@ -26,6 +26,7 @@ export default function ProfilePage() {
         if (isPending) return 'Loading...';
         if (error) return 'An error has occurred: ' + error.message
         if (isFetching) return "is fetching...";
+
         return (
             <div className="flex flex-col items-center gap-4">
 
@@ -53,6 +54,7 @@ export default function ProfilePage() {
                                     <th>Date</th>
                                     <th>Fulfiller Profile</th>
                                     <th>Recieved Rating</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,8 +66,7 @@ export default function ProfilePage() {
 
 
                 <details>
-                    <summary>Fulfilled Deals History</summary>
-
+                    <summary>Accepted Deals History</summary>
 
                     <div className="overflow-x-auto">
                         <table className="table table-xs">
@@ -76,10 +77,11 @@ export default function ProfilePage() {
                                     <th>Date</th>
                                     <th>Creator Profile</th>
                                     <th>Recieved Rating</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.postHistory.map(post => <FulfilledDealHistoryComponent {...post} key={post.id} />)}
+                                {data.acceptedJobs.map(post => <FulfilledDealHistoryComponent {...post} key={post.id} />)}
                             </tbody>
                         </table>
                     </div>

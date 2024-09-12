@@ -26,6 +26,7 @@ public class Post
     public int? CreatorId { get; set; }
     public User? Creator { get; set; }
     public bool IsFulfilled { get; set; } = false;
+    public bool IsAborted {get; set;} = false;
     public int? FulfillerId { get; set; }
     public User? Fulfiller { get; private set; }
     public Review? ReviewOnCreator { get; set; }

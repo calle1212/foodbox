@@ -27,10 +27,11 @@ public class PostsController : ControllerBase
         User? user =_context.Users.Include(user => user.ActivePost)
                                   .FirstOrDefault(user => user.ClerkId == request.CreatorClerkId);
         if(user is null) return NotFound("The user has not been created");
-        if(user.ActivePost is not null) return BadRequest("Only one active post per user is permitted");
+        if(user.ActivePost is not null) user.ActivePost.IsAborted = true;
 
         Post post = (Post) (request, user);
-        user.SetActivePost(post);
+        
+        user.ActivePost = post;
         _context.Posts.Add(post);
 
         await _context.SaveChangesAsync();
@@ -70,8 +71,8 @@ public class PostsController : ControllerBase
         if(user == null) return NotFound("The creator user could not be found");
 
         post.IsFulfilled = true;
-        user.PostHistory.Add(post);
         user.ActivePost = null;
+        user.PostHistory.Add(post);
         await _context.SaveChangesAsync();
         return Ok();
         

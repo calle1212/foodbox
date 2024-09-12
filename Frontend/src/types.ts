@@ -9,6 +9,7 @@ export interface Post {
     creatorName: string;
     fulfillerClerkId?: string;
     isFulfilled: boolean;
+    isAborted: boolean;
     imageUrl?: string;  
     reviewOnCreator?:Review;
     reviewOnFulfiller?:Review;
@@ -33,6 +34,6 @@ export interface Post {
     imageUrl: string;
     activePost: Post;
     postHistory: Post[];
-    finishedJobs: Post[];
+    acceptedJobs: Post[];
 
   }

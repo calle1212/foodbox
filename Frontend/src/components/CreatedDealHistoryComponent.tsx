@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 
 
 export default function CreatedDealHistoryComponent(post : Post){
-    if(post.isFulfilled){
+  
     return (
     <tr>
         <td>{post.title}</td>
@@ -11,7 +11,8 @@ export default function CreatedDealHistoryComponent(post : Post){
         <td>{post.date}</td>
         <td> <Link to="/profile" search={{id: post.fulfillerClerkId}} className="btn"> Fulfiller profile</Link>{post.fulfillerClerkId}</td>
         <td>{post.reviewOnCreator && post.reviewOnCreator.rating}</td>
+        <td>{post.isFulfilled ? <p className="text-green-600">Completed</p> : <button className="btn">Mark as completed</button>}</td>
+
     </tr>
     )
-}
 }
