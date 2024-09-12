@@ -21,9 +21,9 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> PostUser(UserRequest userReq)
     {
-        
-        if(_context.Users.FirstOrDefault(user => user.ClerkId == userReq.ClerkId) != null) return BadRequest("User already exists");
-        User user = (User) userReq;
+
+        if (_context.Users.FirstOrDefault(user => user.ClerkId == userReq.ClerkId) != null) return BadRequest("User already exists");
+        User user = (User)userReq;
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
@@ -49,14 +49,16 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<User>> GetUser(string id)
+    public async Task<ActionResult<UserResponse>> GetUser(string id)
     {
         User? user = await _context.Users.Include(user => user.ActivePost)
-                                          .Include(user => user.PostHistory)
-                                          .Include(user => user.AcceptedJobs)
+                                          .Include(user => user.PostHistory).ThenInclude(p => p.Fulfiller)
+                                          //.Include(user => user.PostHistory).ThenInclude(p => p.Creator)
+                                          //.Include(user => user.AcceptedJobs).ThenInclude(p => p.Fulfiller)
+                                          .Include(user => user.AcceptedJobs).ThenInclude(p => p.Creator)
                                          .FirstOrDefaultAsync(user => user.ClerkId == id);
         if (user == null) return NotFound("The User was not found");
-        return user;
+        return (UserResponse)user;
 
     }
 }

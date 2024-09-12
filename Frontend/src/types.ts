@@ -7,7 +7,7 @@ export interface Post {
     date: Date;
     creatorClerkId: string;
     creatorName: string;
-    fulfillerClerkId?: string;
+    fulfillerClerkId: string;
     isFulfilled: boolean;
     isAborted: boolean;
     imageUrl?: string;  

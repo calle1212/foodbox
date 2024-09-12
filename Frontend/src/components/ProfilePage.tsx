@@ -43,7 +43,7 @@ export default function ProfilePage() {
 
 
                 <details>
-                    <summary>Created Deals History</summary>
+                    <summary>Created Deals</summary>
 
                     <div className="overflow-x-auto">
                         <table className="table table-xs">
@@ -66,7 +66,7 @@ export default function ProfilePage() {
 
 
                 <details>
-                    <summary>Accepted Deals History</summary>
+                    <summary>Accepted Deals</summary>
 
                     <div className="overflow-x-auto">
                         <table className="table table-xs">

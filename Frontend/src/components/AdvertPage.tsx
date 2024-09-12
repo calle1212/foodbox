@@ -20,26 +20,28 @@ export default function AdvertPage(){
 
     const queryClient = useQueryClient();
 
-    const deleteDeveloperQuery  = useMutation({
+    const acceptJobQuery  = useMutation({
         mutationFn: () => {
             return fetch(`http://localhost:5063/api/Posts/AcceptJob?fulfillerClerkId=${user.user?.id}&postId=${data?.id}`, {
-                method: "DELETE",
+                method: "PATCH",
             })
         },
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["UserPost", qid] }) 
     });
 
-    console.log(user.user?.id)
-
+    
     if (isPending) return 'Loading...';
     if (error) return 'An error has occurred: ' + error.message
     if (isFetching) return "is fetching...";
-
+    
     function acceptJob(){
-        deleteDeveloperQuery.mutate();
+        console.log("hello from accept job")
+        acceptJobQuery.mutate();
     }
-
+    
     const Post = data;
+    console.log(user.user?.id)
+    console.log(Post.fulfillerClerkId)
     return (
         <div className='flex flex-col items-center'>
             <h1 className='text-3xl'>{Post?.title}</h1>
@@ -58,8 +60,8 @@ export default function AdvertPage(){
             </ul>
             <div className='p-4'>
 
-            { Post.fulfillerClerkId == "" && <button className='btn btn-disabled' >This has job already been accepted</button>}
-            { Post.fulfillerClerkId != "" && <button className='btn btn-primary' onClick={() => acceptJob}>Take Job</button>}
+            { Post.fulfillerClerkId != "" && <button className='btn btn-disabled' >This has job already been accepted</button>}
+            { Post.fulfillerClerkId == "" && <button className='btn btn-primary' onClick={acceptJob}>Take Job</button>}
             </div>
             <div className='p-10'>
             <Link to="/profile" search={{id: Post?.creatorClerkId}} className='btn'>Check out {Post.creatorName}'s profile</Link>

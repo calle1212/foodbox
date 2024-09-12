@@ -45,7 +45,7 @@ public class PostsController : ControllerBase
         return _context.Posts.Include(post => post.Creator).Select(post => (PostResponse) post).ToList();
     }
 
-    [HttpPost("AcceptJob")]
+    [HttpPatch("AcceptJob")]
     public async Task<IActionResult> AcceptJob(string fulfillerClerkId, int postId){
         Post? post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == postId);
         if(post == null) return NotFound("Post not found");
@@ -61,13 +61,13 @@ public class PostsController : ControllerBase
         
     } 
 
-    [HttpPut("FulfillJob")]
+    [HttpPatch("FulfillJob")]
      public async Task<IActionResult> FulfillJob(string creatorClerkId, int postId){
-        Post? post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == postId);
+        Post? post = await _context.Posts.Include(p => p.Fulfiller).FirstOrDefaultAsync(p => p.Id == postId);
         if(post == null) return NotFound("Post not found");
         if(post.Fulfiller == null) BadRequest("No one has accepted this post");
 
-        User? user = await _context.Users.FirstOrDefaultAsync(u => u.ClerkId == creatorClerkId);
+        User? user = await _context.Users.Include(u => u.ActivePost).FirstOrDefaultAsync(u => u.ClerkId == creatorClerkId);
         if(user == null) return NotFound("The creator user could not be found");
 
         post.IsFulfilled = true;

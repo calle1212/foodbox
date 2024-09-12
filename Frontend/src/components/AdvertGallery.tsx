@@ -57,7 +57,7 @@ export default function AdvertGallery() {
     return (
         <>
         <div className='flex flex-wrap gap-4 justify-center p-5 '>
-            {data.filter(post => post.isFulfilled == false).map(post => <AdvertCard {...post} key={post.creatorClerkId}/>)}
+            {data.filter(post => post.isFulfilled == false && post.isAborted == false).map(post => <AdvertCard {...post} key={post.creatorClerkId}/>)}
         </div>
         <div className='flex justify-center'>
         <button className='btn btn-primary'>Post a deal!</button>
