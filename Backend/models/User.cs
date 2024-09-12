@@ -13,8 +13,7 @@ public class User
     public string? ImageUrl {get; set;}
     public Post? ActivePost { get; private set; }
     public List<Post> PostHistory { get; } = [];
-    public List<Post> FinishedJobs { get; } = [];
-    //public List<Post> AcceptedJobs { get; } = [];
+    public List<Post> AcceptedJobs { get; } = [];
 
 
     public bool ArchiveActivePost()
