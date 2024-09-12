@@ -9,12 +9,18 @@ export interface Post {
     creatorName: string;
     fulfillerClerkId?: string;
     isFulfilled: boolean;
-    imageUrl?: string;         
+    imageUrl?: string;  
+
   }
 
   export interface Review {
     id: number;
+    creatorClerkId: string;
+    fulfillerClerkId: string;
     rating: number;
+    body:string;
+    
+
   }
 
   export interface MyUser {
@@ -22,7 +28,8 @@ export interface Post {
     clerkId:string;
     name: string;
     imageUrl: string;
-    reviews: Review[];
     activePost: Post;
     postHistory: Post[];
+    finishedJobs: Post[];
+
   }
