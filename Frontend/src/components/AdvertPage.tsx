@@ -5,8 +5,6 @@ import { useMatch , Link} from '@tanstack/react-router';
 export default function AdvertPage(){
     const { search } = useMatch("/deal");
     const qid= search.id;
-    console.log(qid);
-
   
     const { isPending, error, data, isFetching } = useQuery<Post>({
         queryKey: ["UserPost", qid],

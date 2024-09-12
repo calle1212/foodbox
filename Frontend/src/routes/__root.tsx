@@ -1,18 +1,25 @@
-import { SignedOut, SignInButton, SignedIn, SignOutButton } from '@clerk/clerk-react'
+import { SignedOut, SignInButton, SignedIn, SignOutButton, useUser } from '@clerk/clerk-react'
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 export const Route = createRootRoute({
   
-  component: () => (
+  component: Root 
+
+
+})
+
+
+function Root(){
+  const { user } = useUser();
+  return (
     <>
-      <div className="p-2 flex gap-2 justify-center
-">
+      <div className="p-2 flex gap-2 justify-center">
         <Link to="/" className="[&.active]:font-bold">
           Home
         </Link>{' '}
 
-        <Link to="/profile" className="[&.active]:font-bold" >
+        <Link to="/profile" search={{ id: user?.id, }} className="[&.active]:font-bold" >
           Profile
         </Link>
         <div className=''>
@@ -28,5 +35,5 @@ export const Route = createRootRoute({
       <Outlet />
       <TanStackRouterDevtools />
     </>
-  ),
-})
+  )
+}

@@ -1,7 +1,7 @@
 import { SignIn, SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import { useMatch, Link } from '@tanstack/react-router';
-import { Post, MyUser } from "../types";
+import { MyUser } from "../types";
 import ReviewComponent from "./ReviewComponent";
 import CreatedDealHistoryComponent from "./CreatedDealHistoryComponent";
 
@@ -10,10 +10,10 @@ export default function ProfilePage() {
     const { search } = useMatch("/profile");
     let qid = search.id;
     const { user } = useUser();
+    
     if (!qid) qid = user?.id;
-
     const { isPending, error, data, isFetching } = useQuery<MyUser>({
-        queryKey: ["ProfileData"],
+        queryKey: ["ProfileData", qid],
         queryFn: async () => {
             const response = await fetch(
                 `http://localhost:5063/api/Users?id=${qid}`,
@@ -36,13 +36,57 @@ export default function ProfilePage() {
                         alt="Food image" />
                 </figure>
                 <h2>Active Deal</h2>
-                {data.activePost && <Link className="btn" to="/deal" search={{ id: { data }.data.activePost.id, }} >Check out {data.name}' active deal</Link>}
+                {data.activePost && <Link className="btn" to="/deal" search={{ id: { data }.data.clerkId, }} >Check out {data.name}' active deal</Link>}
 
-               
-               
 
-                <h2>Deal history</h2>
-                {data.postHistory.map(post => <CreatedDealHistoryComponent {...post} key={post.id} />)}
+
+                <details>
+                <summary>Created Deals History</summary>
+
+                <div className="overflow-x-auto">
+                    <table className="table table-xs">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Job</th>
+                                <th>company</th>
+                                <th>location</th>
+                                <th>Last Login</th>
+                                <th>Favorite Color</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.postHistory.map(post => <CreatedDealHistoryComponent {...post} key={post.id} />)}
+                        </tbody>
+                    </table>
+                </div>
+                </details>
+
+
+                <details>
+                    <summary>Fulfilled Deals History</summary> 
+
+
+                <div className="overflow-x-auto">
+                    <table className="table table-xs">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Job</th>
+                                <th>company</th>
+                                <th>location</th>
+                                <th>Last Login</th>
+                                <th>Favorite Color</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.postHistory.map(post => <CreatedDealHistoryComponent {...post} key={post.id} />)}
+                        </tbody>
+                    </table>
+                </div>
+                </details>
 
 
                 {user?.id == qid && <button className="btn">Update Information</button>}

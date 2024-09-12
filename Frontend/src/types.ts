@@ -10,6 +10,9 @@ export interface Post {
     fulfillerClerkId?: string;
     isFulfilled: boolean;
     imageUrl?: string;  
+    reviewOnCreator?:Review;
+    reviewOnFulfiller?:Review;
+    
 
   }
 
