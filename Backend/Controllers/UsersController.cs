@@ -53,6 +53,7 @@ public class UsersController : ControllerBase
     {
         User? user = await _context.Users.Include(user => user.ActivePost)
                                           .Include(user => user.PostHistory)
+                                          .Include(user => user.AcceptedJobs)
                                          .FirstOrDefaultAsync(user => user.ClerkId == id);
         if (user == null) return NotFound("The User was not found");
         return user;

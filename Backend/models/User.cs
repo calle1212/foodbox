@@ -11,21 +11,21 @@ public class User
     required public string ClerkId { get; init; }
     required public string Name { get; set; }
     public string? ImageUrl {get; set;}
-    public Post? ActivePost { get; private set; }
+    public Post? ActivePost { get; set; }
     public List<Post> PostHistory { get; } = [];
     public List<Post> AcceptedJobs { get; } = [];
 
 
-    public bool ArchiveActivePost()
-    {
-        if (ActivePost is not null)
-        {
-            PostHistory.Add(ActivePost);
-            this.ActivePost = null;
-            return true;
-        }
-        return false;
-    }
+    // public bool ArchiveActivePost()
+    // {
+    //     if (ActivePost is not null)
+    //     {
+    //         PostHistory.Add(ActivePost);
+    //         this.ActivePost = null;
+    //         return true;
+    //     }
+    //     return false;
+    // }
     public bool SetActivePost(Post post)
     {
         if (ActivePost is null)

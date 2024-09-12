@@ -44,5 +44,38 @@ public class PostsController : ControllerBase
         return _context.Posts.Include(post => post.Creator).Select(post => (PostResponse) post).ToList();
     }
 
+    [HttpPost("AcceptJob")]
+    public async Task<IActionResult> AcceptJob(string fulfillerClerkId, int postId){
+        Post? post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == postId);
+        if(post == null) return NotFound("Post not found");
+
+        User? user = await _context.Users.FirstOrDefaultAsync(u => u.ClerkId == fulfillerClerkId);
+        if(user == null) return NotFound("The fulfiller user could not be found");
+
+        bool ok =  post.AddFulfiller(user);
+        if(!ok) return BadRequest("The job already has a fulfiller");
+        user.AcceptedJobs.Add(post);
+        await _context.SaveChangesAsync();
+        return Ok();
+        
+    } 
+
+    [HttpPut("FulfillJob")]
+     public async Task<IActionResult> FulfillJob(string creatorClerkId, int postId){
+        Post? post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == postId);
+        if(post == null) return NotFound("Post not found");
+        if(post.Fulfiller == null) BadRequest("No one has accepted this post");
+
+        User? user = await _context.Users.FirstOrDefaultAsync(u => u.ClerkId == creatorClerkId);
+        if(user == null) return NotFound("The creator user could not be found");
+
+        post.IsFulfilled = true;
+        user.PostHistory.Add(post);
+        user.ActivePost = null;
+        await _context.SaveChangesAsync();
+        return Ok();
+        
+    } 
+
 
 }
