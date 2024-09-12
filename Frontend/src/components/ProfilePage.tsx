@@ -86,9 +86,6 @@ export default function ProfilePage() {
                         </table>
                     </div>
                 </details>
-
-
-                {user?.id == qid && <button className="btn">Update Information</button>}
             </div>
         )
     }

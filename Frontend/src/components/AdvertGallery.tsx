@@ -4,7 +4,7 @@ import {
 import { Post } from '../types';
 import AdvertCard from './AdvertCard';
 import { useUser } from '@clerk/clerk-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PostDealForm from './PostDealForm';
 
 
@@ -12,6 +12,8 @@ import PostDealForm from './PostDealForm';
 export default function AdvertGallery() {
 
     const { user } = useUser();
+    
+
 
     useEffect(() => {
         if (user) {
@@ -55,14 +57,16 @@ export default function AdvertGallery() {
     if (isPending) return 'Loading...';
     if (error) return 'An error has occurred: ' + error.message
     if (isFetching) return "is fetching...";
+
+
     return (
         <>
             <div className='flex flex-wrap gap-4 justify-center p-5 '>
                 {data.filter(post => post.isFulfilled == false && post.isAborted == false).map(post => <AdvertCard {...post} key={post.creatorClerkId} />)}
             </div>
             <div className='flex justify-center'>
-                <details className='flex justify-center w-72'>
-                    <summary className='btn btn-primary'>Post a deal!</summary>
+                <details className='flex justify-center w-72' >
+                    <summary className={`btn`} >Post a deal!</summary>
                     <PostDealForm />
                 </details>
             </div>
