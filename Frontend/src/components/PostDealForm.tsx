@@ -19,14 +19,14 @@ export default function PostDealForm() {
     const queryClient = useQueryClient();
     const user = useUser();
 
-    const PostDealQuery  = useMutation({
-        mutationFn: () => {
+    const postDealQuery  = useMutation({
+        mutationFn: (postRequest : PostRequest) => {
             return fetch(`http://localhost:5063/api/Posts`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: user.user?.id
+                body: JSON.stringify(postRequest)
             })
         },
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["repoData"] }) 
@@ -44,6 +44,7 @@ export default function PostDealForm() {
   const onSubmit: SubmitHandler<PostRequest> = (data) => {
     data.creatorClerkId = user.user?.id
     console.log(data)
+    postDealQuery.mutate(data);
 }
 
   console.log(watch("title")) // watch input value by passing the name of it
@@ -52,11 +53,11 @@ export default function PostDealForm() {
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <form className="flex flex-col gap-5 p-3" onSubmit={handleSubmit(onSubmit)}>
 
-      <label > Title: <input {...register("title", { required: true } )} /> </label>
-      <label > Description: <input {...register("description", { required: true })} /> </label>
-      <label > Payment: <input {...register("payment", { required: true })} type="number"  /> </label>
-      <label > Location: <input {...register("location", { required: true })} /> </label>
-      <label > Date: <input {...register("date", { required: true })} type="date" /> </label>
+      <label > Title: <input defaultValue="test" {...register("title", { required: true } )} /> </label>
+      <label > Description: <input  defaultValue="test" {...register("description", { required: true })} /> </label>
+      <label > Payment: <input defaultValue="250" {...register("payment", { required: true })} type="number"  /> </label>
+      <label > Location: <input defaultValue="test" {...register("location", { required: true })} /> </label>
+      <label > Date: <input defaultValue="2024-09-03" {...register("date", { required: true })} type="date" /> </label>
 
       {errors.title && <span>All fields are required</span>}
 
