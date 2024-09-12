@@ -1,15 +1,17 @@
 import { Post } from "../types";
+import { Link } from '@tanstack/react-router';
+
 
 export default function CreatedDealHistoryComponent(post : Post){
+    if(post.isFulfilled){
     return (
     <tr>
-        <th>1</th>
-        <td>Cy Ganderton</td>
-        <td>Quality Control Specialist</td>
-        <td>Littel, Schaden and Vandervort</td>
-        <td>Canada</td>
-        <td>12/16/2020</td>
-        <td>Blue</td>
+        <td>{post.title}</td>
+        <td>{post.description}</td>
+        <td>{post.date}</td>
+        <td> <Link to="/profile" search={{id: post.fulfillerClerkId}} className="btn"> Fulfiller profile</Link>{post.fulfillerClerkId}</td>
+        <td>{post.reviewOnCreator && post.reviewOnCreator.rating}</td>
     </tr>
     )
+}
 }

@@ -4,13 +4,14 @@ import { useMatch, Link } from '@tanstack/react-router';
 import { MyUser } from "../types";
 import ReviewComponent from "./ReviewComponent";
 import CreatedDealHistoryComponent from "./CreatedDealHistoryComponent";
+import FulfilledDealHistoryComponent from "./FulfilledDealHistoryComponent";
 
 
 export default function ProfilePage() {
     const { search } = useMatch("/profile");
     let qid = search.id;
     const { user } = useUser();
-    
+
     if (!qid) qid = user?.id;
     const { isPending, error, data, isFetching } = useQuery<MyUser>({
         queryKey: ["ProfileData", qid],
@@ -41,51 +42,47 @@ export default function ProfilePage() {
 
 
                 <details>
-                <summary>Created Deals History</summary>
+                    <summary>Created Deals History</summary>
 
-                <div className="overflow-x-auto">
-                    <table className="table table-xs">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Job</th>
-                                <th>company</th>
-                                <th>location</th>
-                                <th>Last Login</th>
-                                <th>Favorite Color</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.postHistory.map(post => <CreatedDealHistoryComponent {...post} key={post.id} />)}
-                        </tbody>
-                    </table>
-                </div>
+                    <div className="overflow-x-auto">
+                        <table className="table table-xs">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                    <th>Fulfiller Profile</th>
+                                    <th>Recieved Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data.postHistory.map(post => <CreatedDealHistoryComponent {...post} key={post.id} />)}
+                            </tbody>
+                        </table>
+                    </div>
                 </details>
 
 
                 <details>
-                    <summary>Fulfilled Deals History</summary> 
+                    <summary>Fulfilled Deals History</summary>
 
 
-                <div className="overflow-x-auto">
-                    <table className="table table-xs">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Job</th>
-                                <th>company</th>
-                                <th>location</th>
-                                <th>Last Login</th>
-                                <th>Favorite Color</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.postHistory.map(post => <CreatedDealHistoryComponent {...post} key={post.id} />)}
-                        </tbody>
-                    </table>
-                </div>
+                    <div className="overflow-x-auto">
+                        <table className="table table-xs">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                    <th>Creator Profile</th>
+                                    <th>Recieved Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data.postHistory.map(post => <FulfilledDealHistoryComponent {...post} key={post.id} />)}
+                            </tbody>
+                        </table>
+                    </div>
                 </details>
 
 
