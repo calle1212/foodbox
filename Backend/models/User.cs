@@ -16,16 +16,15 @@ public class User
     public List<Post> AcceptedJobs { get; } = [];
 
 
-    // public bool ArchiveActivePost()
-    // {
-    //     if (ActivePost is not null)
-    //     {
-    //         PostHistory.Add(ActivePost);
-    //         this.ActivePost = null;
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    public void ArchiveActivePost()
+    {
+        if (ActivePost is not null)
+        {   
+            ActivePost.IsAborted = true;
+            PostHistory.Add(ActivePost);
+            this.ActivePost = null;
+        }
+    }
     public bool SetActivePost(Post post)
     {
         if (ActivePost is null)

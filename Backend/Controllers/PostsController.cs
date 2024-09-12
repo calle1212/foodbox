@@ -25,58 +25,61 @@ public class PostsController : ControllerBase
     public async Task<ActionResult> CreatePost(PostRequest request)
     {
         User? user =_context.Users.Include(user => user.ActivePost)
-                                  .FirstOrDefault(user => user.ClerkId == request.CreatorClerkId);
+                                   .Include(user => user.PostHistory)
+                                   .FirstOrDefault(user => user.ClerkId == request.CreatorClerkId);
         if(user is null) return NotFound("The user has not been created");
-        if(user.ActivePost is not null) user.ActivePost.IsAborted = true;
 
         Post post = (Post) (request, user);
-        
+
+        user.PostHistory.Add(post);
         user.ActivePost = post;
         _context.Posts.Add(post);
 
         await _context.SaveChangesAsync();
-        
+
         return CreatedAtAction(nameof(CreatePost), new {id = post.Id}, post);
     }
+
 
     [HttpGet]
     public List<PostResponse> GetPosts()
     {
-        return _context.Posts.Include(post => post.Creator).Select(post => (PostResponse) post).ToList();
+        return _context.Posts.Include(post => post.Creator).Select(post => (PostResponse)post).ToList();
     }
 
     [HttpPatch("AcceptJob")]
-    public async Task<IActionResult> AcceptJob(string fulfillerClerkId, int postId){
+    public async Task<IActionResult> AcceptJob(string fulfillerClerkId, int postId)
+    {
         Post? post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == postId);
-        if(post == null) return NotFound("Post not found");
+        if (post == null) return NotFound("Post not found");
 
         User? user = await _context.Users.FirstOrDefaultAsync(u => u.ClerkId == fulfillerClerkId);
-        if(user == null) return NotFound("The fulfiller user could not be found");
+        if (user == null) return NotFound("The fulfiller user could not be found");
 
-        bool ok =  post.AddFulfiller(user);
-        if(!ok) return BadRequest("The job already has a fulfiller");
+        bool ok = post.AddFulfiller(user);
+        if (!ok) return BadRequest("The job already has a fulfiller");
         user.AcceptedJobs.Add(post);
         await _context.SaveChangesAsync();
         return Ok();
-        
-    } 
+
+    }
 
     [HttpPatch("FulfillJob")]
-     public async Task<IActionResult> FulfillJob(string creatorClerkId, int postId){
+    public async Task<IActionResult> FulfillJob(string creatorClerkId, int postId)
+    {
         Post? post = await _context.Posts.Include(p => p.Fulfiller).FirstOrDefaultAsync(p => p.Id == postId);
-        if(post == null) return NotFound("Post not found");
-        if(post.Fulfiller == null) BadRequest("No one has accepted this post");
+        if (post == null) return NotFound("Post not found");
+        if (post.Fulfiller == null) BadRequest("No one has accepted this post");
 
         User? user = await _context.Users.Include(u => u.ActivePost).FirstOrDefaultAsync(u => u.ClerkId == creatorClerkId);
-        if(user == null) return NotFound("The creator user could not be found");
+        if (user == null) return NotFound("The creator user could not be found");
 
         post.IsFulfilled = true;
         user.ActivePost = null;
         user.PostHistory.Add(post);
         await _context.SaveChangesAsync();
         return Ok();
-        
-    } 
 
+    }
 
 }

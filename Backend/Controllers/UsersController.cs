@@ -61,6 +61,20 @@ public class UsersController : ControllerBase
                                          .FirstOrDefaultAsync(user => user.ClerkId == id);
         if (user == null) return NotFound("The User was not found");
         return (UserResponse)user;
+    }
 
+
+    [HttpPatch("AbortActivePost")]
+    public async Task<IActionResult> AbortActivePost(string creatorClerkId)
+    {
+        Post? post = await _context.Posts.Include(post => post.Creator)
+                            .FirstOrDefaultAsync(post => post.Creator!.ClerkId == creatorClerkId);
+        
+        if(post == null) return NotFound("post could not be found");
+
+        post.IsAborted = true;
+        await _context.SaveChangesAsync();
+
+        return Ok();
     }
 }
