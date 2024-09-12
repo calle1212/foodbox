@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Backend.models
-{
+namespace Backend.models;
     public class Review
     {
         [Key]
@@ -13,4 +12,3 @@ namespace Backend.models
         required public string Body { get; set; }
         public int Rating { get; set; }
     }
-}

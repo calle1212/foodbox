@@ -14,6 +14,7 @@ public class User
     public Post? ActivePost { get; private set; }
     public List<Post> PostHistory { get; } = [];
     public List<Post> FinishedJobs { get; } = [];
+    //public List<Post> AcceptedJobs { get; } = [];
 
 
     public bool ArchiveActivePost()
