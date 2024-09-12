@@ -4,6 +4,7 @@ using Backend.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(FoodBoxContext))]
-    partial class FoodBoxContextModelSnapshot : ModelSnapshot
+    [Migration("20240912094831_updatePostModelWithIsFulfilled")]
+    partial class updatePostModelWithIsFulfilled
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,30 +56,15 @@ namespace Backend.Migrations
                     b.Property<int>("Payment")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ReviewOnCreatorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReviewOnFulfillerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
 
                     b.HasIndex("FulfillerId");
-
-                    b.HasIndex("ReviewOnCreatorId");
-
-                    b.HasIndex("ReviewOnFulfillerId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -93,20 +81,24 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CreatorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FulfillerId")
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<int>("ReviewerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("PostId");
 
-                    b.HasIndex("FulfillerId");
+                    b.HasIndex("ReviewerId");
 
                     b.ToTable("Reviews");
                 });
@@ -153,53 +145,37 @@ namespace Backend.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Backend.models.Review", "ReviewOnCreator")
-                        .WithMany()
-                        .HasForeignKey("ReviewOnCreatorId");
-
-                    b.HasOne("Backend.models.Review", "ReviewOnFulfiller")
-                        .WithMany()
-                        .HasForeignKey("ReviewOnFulfillerId");
-
-                    b.HasOne("Backend.models.User", null)
-                        .WithMany("FinishedJobs")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Creator");
 
                     b.Navigation("Fulfiller");
-
-                    b.Navigation("ReviewOnCreator");
-
-                    b.Navigation("ReviewOnFulfiller");
                 });
 
             modelBuilder.Entity("Backend.models.Review", b =>
                 {
-                    b.HasOne("Backend.models.User", "Creator")
+                    b.HasOne("Backend.models.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend.models.User", "Fulfiller")
-                        .WithMany()
-                        .HasForeignKey("FulfillerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("Backend.models.User", "Reviewer")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ReviewerId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Creator");
+                    b.Navigation("Post");
 
-                    b.Navigation("Fulfiller");
+                    b.Navigation("Reviewer");
                 });
 
             modelBuilder.Entity("Backend.models.User", b =>
                 {
                     b.Navigation("ActivePost");
 
-                    b.Navigation("FinishedJobs");
-
                     b.Navigation("PostHistory");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

@@ -22,7 +22,7 @@ export default function AdvertCard(Post: Post) {
                         <Link
                             to="/deal"
                             search={{
-                                id: {Post}.Post.id,
+                                id: {Post}.Post.creatorClerkId,
                             }}
                             className="btn btn-primary">Details</Link>
                     </div>

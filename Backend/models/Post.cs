@@ -25,8 +25,11 @@ public class Post
     public string? ImageUrl {get; set;}
     public int? CreatorId { get; set; }
     public User? Creator { get; set; }
+    public bool IsFulfilled {get; set;} = false; 
     public int? FulfillerId { get; set; }
     public User? Fulfiller { get; private set; }
+    public Review? ReviewOnCreator {get; set;}
+    public Review? ReviewOnFulfiller {get; set;}
 
     // Parameterless constructor for EF Core
 

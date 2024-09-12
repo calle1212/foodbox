@@ -1,16 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Backend.models
 {
     public class Review
     {
+        [Key]
         public int Id { get; set; }
-        required public Post Post { get; init; }
-        required public User Reviewer { get; init; }
-        required public string Role { get; init; }
+        public int CreatorId { get; set; }
+        required public User Creator { get; init; }
+        public int FulfillerId { get; set; }
+        required public User Fulfiller { get; init; }
         required public string Body { get; set; }
         public int Rating { get; set; }
     }

@@ -6,7 +6,9 @@ export interface Post {
     location: string;
     date: Date;
     creatorClerkId: string;
+    creatorName: string;
     fulfillerClerkId?: string;
+    isFulfilled: boolean;
     imageUrl?: string;         
   }
 

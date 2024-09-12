@@ -11,9 +11,9 @@ public class User
     required public string ClerkId { get; init; }
     required public string Name { get; set; }
     public string? ImageUrl {get; set;}
-    public List<Review> Reviews { get; } = [];
     public Post? ActivePost { get; private set; }
     public List<Post> PostHistory { get; } = [];
+    public List<Post> FinishedJobs { get; } = [];
 
 
     public bool ArchiveActivePost()

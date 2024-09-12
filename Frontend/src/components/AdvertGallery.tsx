@@ -57,7 +57,7 @@ export default function AdvertGallery() {
     return (
         <>
         <div className='flex gap-4'>
-            {data.map(post => <AdvertCard {...post} key={post.id}/>)}
+            {data.map(post => <AdvertCard {...post} key={post.creatorClerkId}/>)}
         </div>
         <div className='flex justify-center'>
         <button className='btn btn-primary'>Post a deal!</button>

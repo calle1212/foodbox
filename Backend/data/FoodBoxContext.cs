@@ -17,21 +17,33 @@ public class FoodBoxContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Post>()
-            .HasOne(p => p.Creator) 
+            .HasOne(p => p.Creator)
             .WithMany(u => u.PostHistory)
-            .HasForeignKey(p => p.CreatorId) 
-            .OnDelete(DeleteBehavior.Restrict); 
+            .HasForeignKey(p => p.CreatorId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Post>()
-            .HasOne(p => p.Fulfiller) 
-            .WithMany() 
+            .HasOne(p => p.Fulfiller)
+            .WithMany()
             .HasForeignKey(p => p.FulfillerId)
-            .OnDelete(DeleteBehavior.Restrict); 
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<User>()
             .HasOne(u => u.ActivePost)
-            .WithOne() 
-            .HasForeignKey<Post>(p => p.Id) 
-            .OnDelete(DeleteBehavior.Restrict); 
+            .WithOne()
+            .HasForeignKey<Post>(p => p.Id)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Review>()
+            .HasOne(p => p.Fulfiller)
+            .WithMany()
+            .HasForeignKey(p => p.FulfillerId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Review>()
+            .HasOne(p => p.Creator)
+            .WithMany()
+            .HasForeignKey(p => p.CreatorId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
