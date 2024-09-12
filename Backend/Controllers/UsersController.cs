@@ -41,10 +41,12 @@ public class UsersController : ControllerBase
     [HttpGet("ActivePost")]
     public async Task<ActionResult<PostResponse>> GetActivePost(string ClerkId)
     {
-        User? user = await _context.Users.Include(user => user.ActivePost)
+        User? user = await _context.Users.Include(user => user.ActivePost).ThenInclude(post => post.Fulfiller)
                                          .FirstOrDefaultAsync(user => user.ClerkId == ClerkId);
         if (user == null) return NotFound("The User was not found");
         if (user.ActivePost == null) return NotFound("User does not have an active post");
+
+
         return (PostResponse)user.ActivePost;
     }
 

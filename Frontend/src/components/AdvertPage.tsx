@@ -8,7 +8,7 @@ export default function AdvertPage(){
     const qid= search.id;
   
     const { isPending, error, data, isFetching } = useQuery<Post>({
-        queryKey: ["UserPost", qid],
+        queryKey: ["UserPost"],
         queryFn: async () => {
             const response = await fetch(
                 `http://localhost:5063/api/Users/ActivePost?ClerkId=${qid}`,
@@ -26,7 +26,7 @@ export default function AdvertPage(){
                 method: "PATCH",
             })
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["UserPost", qid] }) 
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["UserPost"] }) 
     });
 
     

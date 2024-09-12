@@ -5,6 +5,7 @@ import { Post } from '../types';
 import AdvertCard from './AdvertCard';
 import { useUser } from '@clerk/clerk-react';
 import { useEffect } from 'react';
+import PostDealForm from './PostDealForm';
 
 
 
@@ -56,12 +57,15 @@ export default function AdvertGallery() {
     if (isFetching) return "is fetching...";
     return (
         <>
-        <div className='flex flex-wrap gap-4 justify-center p-5 '>
-            {data.filter(post => post.isFulfilled == false && post.isAborted == false).map(post => <AdvertCard {...post} key={post.creatorClerkId}/>)}
-        </div>
-        <div className='flex justify-center'>
-        <button className='btn btn-primary'>Post a deal!</button>
-        </div>
+            <div className='flex flex-wrap gap-4 justify-center p-5 '>
+                {data.filter(post => post.isFulfilled == false && post.isAborted == false).map(post => <AdvertCard {...post} key={post.creatorClerkId} />)}
+            </div>
+            <div className='flex justify-center'>
+                <details className='flex justify-center w-72'>
+                    <summary className='btn btn-primary'>Post a deal!</summary>
+                    <PostDealForm />
+                </details>
+            </div>
         </>
     )
 }
